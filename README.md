@@ -81,12 +81,14 @@ results = sdgym.benchmark.benchmark_single_table(
 ```
 ⚠️ Limitation: The Stasy implementation is quite rushed, so at this time we have to manually modify `data.image_size` to equal the number of columns (see table above). This means that for now, we can only benchmark ONE dataset per run. 
 
+---
 
 ## 📦 Synthesizers and Their Crucial Parameters
 
+Here are some parameter suggestion for starting the parameter tuning process
+
 ### 🧊 STaSy (Score-based Tabular Synthesizer)
 
-A diffusion-based model using stochastic differential equations and score-matching techniques.
 
 - `model.num_scales`: Number of noise levels in the diffusion schedule.
 - `model.hidden_dims`: Architecture of hidden layers in the denoising network.
@@ -94,13 +96,9 @@ A diffusion-based model using stochastic differential equations and score-matchi
 - `model.ema_rate`: Exponential Moving Average rate applied to model weights.
 - `model.sigma_min` / `model.sigma_max`: Lower and upper bounds for the noise scale.
 
-> ⚠️ **Important**: For each dataset, you must manually set `config.data.image_size` to match the number of columns (excluding the primary key). This is essential for STaSy to initialize properly.
-
 ---
 
 ### 🧪 CTGAN (Conditional Tabular GAN)
-
-A GAN model designed to handle mixed types of tabular data using mode-specific conditioning.
 
 - `embedding_dim`: Dimensionality of the input noise vector to the generator.
 - `generator_dim`: Layer sizes for the generator network.
@@ -109,8 +107,6 @@ A GAN model designed to handle mixed types of tabular data using mode-specific c
 ---
 
 ### 📚 TVAE (Tabular Variational Autoencoder)
-
-A VAE-based model that learns a latent representation of the joint distribution of tabular data.
 
 - `embedding_dim`: Dimensionality of the latent space.
 - `compress_dims`: Layer sizes for the encoder network.
