@@ -80,3 +80,80 @@ results = sdgym.benchmark.benchmark_single_table(
 )
 ```
 ⚠️ Limitation: The Stasy implementation is quite rushed, so at this time we have to manually modify `data.image_size` to equal the number of columns (see table above). This means that for now, we can only benchmark ONE dataset per run. 
+
+
+## 📦 Synthesizers and Their Crucial Parameters
+
+### 🧊 STaSy (Score-based Tabular Synthesizer)
+
+A diffusion-based model using stochastic differential equations and score-matching techniques.
+
+- `model.num_scales`: Number of noise levels in the diffusion schedule.
+- `model.hidden_dims`: Architecture of hidden layers in the denoising network.
+- `training.epoch`: Number of training epochs.
+- `model.ema_rate`: Exponential Moving Average rate applied to model weights.
+- `model.sigma_min` / `model.sigma_max`: Lower and upper bounds for the noise scale.
+
+> ⚠️ **Important**: For each dataset, you must manually set `config.data.image_size` to match the number of columns (excluding the primary key). This is essential for STaSy to initialize properly.
+
+---
+
+### 🧪 CTGAN (Conditional Tabular GAN)
+
+A GAN model designed to handle mixed types of tabular data using mode-specific conditioning.
+
+- `embedding_dim`: Dimensionality of the input noise vector to the generator.
+- `generator_dim`: Layer sizes for the generator network.
+- `discriminator_dim`: Layer sizes for the discriminator network.
+
+---
+
+### 📚 TVAE (Tabular Variational Autoencoder)
+
+A VAE-based model that learns a latent representation of the joint distribution of tabular data.
+
+- `embedding_dim`: Dimensionality of the latent space.
+- `compress_dims`: Layer sizes for the encoder network.
+- `decompress_dims`: Layer sizes for the decoder network.
+
+---
+
+### 🔁 CopulaGAN
+
+Extends CTGAN by introducing copula-based structures in the latent space to improve dependency modeling.
+
+- `embedding_dim`: Size of the noise vector input.
+- `generator_dim`: Hidden layer dimensions for the generator.
+- `discriminator_dim`: Hidden layer dimensions for the discriminator.
+
+---
+
+### 🧠 RealTabFormer
+
+A transformer-based synthesizer designed to learn deep tabular feature interactions.
+
+- `epochs`: Number of training epochs.
+- `batch_size`: Number of samples per batch.
+- `gradient_accumulation_steps`: Steps to accumulate gradients before updating model weights.
+- `early_stopping_patience`: Patience for early stopping based on evaluation metrics.
+
+---
+
+### 📊 Gaussian Copula Synthesizer
+
+A statistical model using Gaussian copulas with parametric marginals for modeling joint dependencies.
+
+- `default_distribution`: Default distribution for numerical columns (example list of distributions within code).
+
+---
+
+### 🌫️ TabDiff (Unified Continuous-Time Diffusion)
+
+A generative diffusion model for tabular data using unified time-based denoising dynamics.
+
+- `num_timesteps`: Number of steps in the diffusion process.
+- `hidden_dim`: Size of hidden layers in the denoising backbone.
+- `learning_rate`: Optimizer learning rate.
+- `scheduler`: Noise scheduler used per column (e.g., `power_mean_per_column`).
+
+---
